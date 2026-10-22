@@ -1,4 +1,4 @@
-function PhotoCard({ photo }) {
+function PhotoCard({ photo, isFavourite, onToggleFavourite }) {
   // download_url is the full size image (up to 5000px wide), so ask picsum for a smaller copy
   const imageUrl = `https://picsum.photos/id/${photo.id}/600/400`
 
@@ -14,10 +14,18 @@ function PhotoCard({ photo }) {
         <p className="truncate font-medium text-gray-800">{photo.author}</p>
         <button
           type="button"
-          aria-label="Add to favourites"
-          className="rounded-full p-1 text-gray-400 hover:bg-gray-100"
+          onClick={() => onToggleFavourite(photo.id)}
+          aria-label={isFavourite ? 'Remove from favourites' : 'Add to favourites'}
+          aria-pressed={isFavourite}
+          className={`rounded-full p-1 hover:bg-gray-100 ${isFavourite ? 'text-rose-500' : 'text-gray-400'}`}
         >
-          <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2">
+          <svg
+            viewBox="0 0 24 24"
+            className="h-6 w-6"
+            fill={isFavourite ? 'currentColor' : 'none'}
+            stroke="currentColor"
+            strokeWidth="2"
+          >
             <path
               strokeLinecap="round"
               strokeLinejoin="round"

@@ -1,10 +1,12 @@
 import { useCallback, useMemo, useState } from 'react'
 import useFetchPhotos from '../hooks/useFetchPhotos'
+import useFavourites from '../hooks/useFavourites'
 import PhotoCard from './PhotoCard'
 import SearchBar from './SearchBar'
 
 function Gallery() {
   const { photos, loading, error } = useFetchPhotos()
+  const { favourites, toggleFavourite } = useFavourites()
   const [query, setQuery] = useState('')
 
   // same function on every render, so the memoized SearchBar doesn't re-render for nothing
@@ -43,7 +45,12 @@ function Gallery() {
     content = (
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
         {filteredPhotos.map((photo) => (
-          <PhotoCard key={photo.id} photo={photo} />
+          <PhotoCard
+            key={photo.id}
+            photo={photo}
+            isFavourite={favourites.includes(photo.id)}
+            onToggleFavourite={toggleFavourite}
+          />
         ))}
       </div>
     )
